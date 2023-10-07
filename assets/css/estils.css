@@ -4,11 +4,8 @@
   box-sizing: border-box;
 }
 
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px 40px;
+body {
+  background-color: lightgrey;
 }
 
 .cart-container {
@@ -20,7 +17,7 @@ header {
   cursor: pointer;
 }
 
-.cart-container-btn-qtty {
+.cart-container-qtty {
   position: absolute;
   left: 25px;
   top: 55%;

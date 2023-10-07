@@ -18,7 +18,9 @@
   <body>
     <div class="page-container">
       <!-- Page content -->
-      <header>
+      <header
+        class="d-flex justify-content-between align-items-center my-2 mx-4"
+      >
         <h1 class="fw-bold">Tienda online</h1>
         <div class="cart-container">
           <svg
@@ -38,10 +40,16 @@
             />
           </svg>
           <span
-            class="cart-container-btn-qtty"
+            class="cart-container-qtty"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
             >0</span
+          >
+          <span
+            class="cart-container-total"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            >€0,00</span
           >
         </div>
       </header>
@@ -67,12 +75,12 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body fs-4">
               <p>El carrito está vacío.</p>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer fw-bold fs-3">
               <p>Total:</p>
-              <span class="valor-total fw-bold">€0.00</span>
+              <span class="valor-total">€0.00</span>
             </div>
           </div>
         </div>
@@ -101,70 +109,128 @@
 
   let cartItems = [];
   let valorTotal = document.querySelector(".valor-total");
-  let cartQtty = document.querySelector(".cart-container-btn-qtty");
+  let cartQtty = document.querySelector(".cart-container-qtty");
+  let cartTotal = document.querySelector(".cart-container-total");
+  let modalBody = document.querySelector(".modal-body");
 
-  RandomId = () => Math.floor(Math.random() * 1000).toString();
+  let randomId = () => Math.floor(Math.random() * 1000).toString();
 
   const showCart = () => {
-    const modalBody = document.querySelector(".modal-body");
-    modalBody.innerHTML = "";
     let totalPrice = 0;
     let totalQtty = 0;
 
-    cartItems.forEach((item) => {
-      const modalItem = document.createElement("div");
-      modalItem.classList.add("modal-item");
-      modalItem.innerHTML = `
-      <span class="modal-item-qtty">${item.qtty}</span>
-      <p class="modal-item-name">${item.name}</p>
-      <span class="modal-item-price">€${item.price.toFixed(2)}</span>
-      <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="modal-item-icon-close"
-      >
-      <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-      />
-      </svg>
-      `;
-
-      totalPrice = totalPrice + item.qtty * item.price;
-      totalQtty += item.qtty;
-
+    if (cartItems.length === 0) {
+      modalBody.innerHTML = "<p>El carrito está vacío.</p>";
       valorTotal.innerText = "€" + totalPrice.toFixed(2);
       cartQtty.innerText = totalQtty;
+      cartTotal.innerText = "€" + totalPrice.toFixed(2);
+    } else {
+      modalBody.innerHTML = "";
+      cartItems.forEach((item) => {
+        const modalItem = document.createElement("div");
+        modalItem.classList.add("modal-item");
+        modalItem.innerHTML = `
+        <p class="modal-item-name text-capitalize">${item.name}</p>
+        <span class="modal-item-price">€${item.price.toFixed(2)}</span>
+        <span class="modal-item-qtty">x${item.qtty}</span>
+        <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="modal-item-icon-close"
+        >
+        <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+        />
+        </svg>
+      `;
 
-      modalBody.appendChild(modalItem);
-    });
+        totalPrice = totalPrice + item.qtty * item.price;
+        totalQtty += item.qtty;
+
+        valorTotal.innerText = "€" + totalPrice.toFixed(2);
+        cartQtty.innerText = totalQtty;
+        cartTotal.innerText = "€" + totalPrice.toFixed(2);
+
+        modalBody.appendChild(modalItem);
+
+        const modalRemoveBtn = modalItem.querySelector(
+          ".modal-item-icon-close"
+        );
+        modalRemoveBtn.addEventListener("click", () => {
+          removeItem(item);
+        });
+      });
+    }
   };
+
+  function updateAddToCartButtonQty(productName) {
+    const addToCartButtons = document.querySelectorAll(
+      `.add-to-cart-btn[data-product="${productName}"]`
+    );
+    addToCartButtons.forEach((button) => {
+      const product = data.find((item) => item.img === productName);
+      if (product) {
+        const quantitySpan = button.querySelector(".add-to-cart-btn-qtty");
+        if (quantitySpan) {
+          quantitySpan.textContent = `(${product.qtty})`;
+        }
+      }
+    });
+  }
 
   function addItem(item) {
     const existingItem = cartItems.find((e) => e.name === item.img);
 
     if (existingItem) {
       existingItem.qtty++;
+      const dataItem = data.find((dataItem) => dataItem.img === item.img);
+      if (dataItem) {
+        dataItem.qtty++;
+      }
     } else {
       itemData = {
-        id: item.img,
+        id: randomId(),
         qtty: 1,
         name: item.img,
         price: item.price,
       };
       cartItems = [...cartItems, itemData];
+
+      const dataItem = data.find((dataItem) => dataItem.img === item.img);
+      if (dataItem) {
+        dataItem.qtty++;
+      }
     }
 
-    console.log("cartItems [] ", cartItems);
+    updateAddToCartButtonQty(item.img);
+
+    console.log("cartItems: ", cartItems);
+    console.log("data: ", data);
 
     showCart();
   }
 
-  function removeItem(item) {}
+  function removeItem(item) {
+    updatedCartItems = cartItems.filter((cartItem) => cartItem.id !== item.id);
+    cartItems = [...updatedCartItems];
+
+    const dataItem = data.find((dataItem) => dataItem.img === item.name);
+    console.log("borrar data item ", dataItem);
+    console.log("borrar item ", item);
+    console.log("data ", data);
+
+    if (dataItem) {
+      dataItem.qtty = 0;
+      updateAddToCartButtonQty(item.name);
+    }
+
+    showCart();
+  }
 
   function render_list_of_items() {
     const itemsContainer = document.querySelector(".items-container");
@@ -185,7 +251,9 @@
               <h4 class="card-price fw-bold">€${item.price.toFixed(2)}</h4>
             </div>
             <div class="d-flex justify-content-center">
-              <a href="#" class="btn btn-primary add-to-cart-btn w-100 d-flex justify-content-center align-items-center">
+              <a href="#" class="btn btn-primary add-to-cart-btn w-100 d-flex justify-content-center align-items-center" data-product="${
+                item.img
+              }">
                 <p class="m-0">Add to cart</p> &nbsp; <span class="add-to-cart-btn-qtty">(0)</span>
               </a>
             </div>
