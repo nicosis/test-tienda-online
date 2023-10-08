@@ -12,20 +12,24 @@ body {
   position: relative;
 }
 
-.cart-container-btn {
-  width: 50px;
+.cart-container-icon {
+  width: 65px;
+  cursor: pointer;
+}
+
+.cart-container-total, .cart-container-arrow {
   cursor: pointer;
 }
 
 .cart-container-qtty {
   position: absolute;
-  left: 25px;
-  top: 55%;
+  left: 18px;
+  bottom: 45%;
   font-size: 25px;
   font-weight: 500;
   background-color: black;
   color: white;
-  min-width: 30px;
+  min-width: 38px;
   min-height: 30px;
   border-radius: 50%;
   display: flex;
@@ -33,6 +37,8 @@ body {
   justify-content: center;
   cursor: pointer;
 }
+
+
 
 .items-container {
   width: 90%;
