@@ -48,19 +48,8 @@ body {
   cursor: pointer;
 }
 
-.cart-container-total,
-.cart-container-arrow {
+.cart-container-total {
   cursor: pointer;
-}
-
-.items-container {
-  width: 95%;
-  margin: 90px auto 10px;
-}
-
-.items-container img {
-  width: 75%;
-  margin: 5px auto 0px;
 }
 
 .modal-item {
@@ -79,7 +68,17 @@ body {
   flex: 3;
 }
 
-.modal-item-closeIcon {
+.modal-item-removeIcon {
   width: 25px;
   cursor: pointer;
+}
+
+.items-container {
+  width: 95%;
+  margin: 90px auto 10px;
+}
+
+.items-container img {
+  width: 75%;
+  margin: 5px auto 0px;
 }

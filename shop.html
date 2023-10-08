@@ -18,9 +18,7 @@
   <body>
     <div class="page-container">
       <!-- Page content -->
-      <header
-        class="fixed-header"
-      >
+      <header class="fixed-header">
         <h1 class="fw-bold">Tienda online</h1>
         <div class="cart-container">
           <svg
@@ -113,15 +111,20 @@
     { img: "chipsahoy", price: 2.2, qtty: 0 },
   ];
 
+  // Declaramos un array vacío para guardar los items agregados al carrito.
   let cartItems = [];
+
+  // Declaramos variables para luego manipular el HTML via DOM
   let valorTotal = document.querySelector(".valor-total");
   let cartQtty = document.querySelector(".cart-container-qtty");
   let cartTotal = document.querySelector(".cart-container-total");
   let modalBody = document.querySelector(".modal-body");
 
+  // Función para generar un id aleatorio para cada nuevo item en el carrito.
   let randomId = () => Math.floor(Math.random() * 1000).toString();
 
-  const showCart = () => {
+  // Funcion rellenar información dentro del carrito.
+  function showCart() {
     let totalPrice = 0;
     let totalQtty = 0;
 
@@ -145,7 +148,7 @@
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="modal-item-closeIcon"
+        class="modal-item-removeIcon"
         >
         <path
         stroke-linecap="round"
@@ -159,20 +162,23 @@
         totalQtty += item.qtty;
 
         valorTotal.innerText = "€" + totalPrice.toFixed(2);
+
         cartQtty.innerText = totalQtty;
         cartTotal.innerText = "€" + totalPrice.toFixed(2);
 
         modalBody.appendChild(modalItem);
 
-        const modalRemoveBtn = modalItem.querySelector(".modal-item-closeIcon");
+        const modalRemoveBtn = modalItem.querySelector(
+          ".modal-item-removeIcon"
+        );
         modalRemoveBtn.addEventListener("click", () => {
           removeItem(item);
         });
       });
     }
-  };
+  }
 
-  function updateAddToCartButtonQty(productName) {
+  function updateAddToCartBtnQtty(productName) {
     const addToCartButtons = document.querySelectorAll(
       `.add-to-cart-btn[data-product="${productName}"]`
     );
@@ -187,8 +193,8 @@
     });
   }
 
-  function addItem(item) {
-    event.preventDefault(); // Evitar que al hacer click regrese al top.
+  function addItem(event, item) {
+    event.preventDefault(); // Evitar que el scroll regrese al top luego del click.
 
     const existingItem = cartItems.find((e) => e.name === item.img);
 
@@ -213,10 +219,7 @@
       }
     }
 
-    updateAddToCartButtonQty(item.img);
-
-    console.log("cartItems: ", cartItems);
-    console.log("data: ", data);
+    updateAddToCartBtnQtty(item.img);
 
     showCart();
   }
@@ -226,13 +229,10 @@
     cartItems = [...updatedCartItems];
 
     const dataItem = data.find((dataItem) => dataItem.img === item.name);
-    console.log("borrar data item ", dataItem);
-    console.log("borrar item ", item);
-    console.log("data ", data);
 
     if (dataItem) {
       dataItem.qtty = 0;
-      updateAddToCartButtonQty(item.name);
+      updateAddToCartBtnQtty(item.name);
     }
 
     showCart();
@@ -268,8 +268,8 @@
       `;
 
       const addToCartButton = itemList.querySelector(".add-to-cart-btn");
-      addToCartButton.addEventListener("click", () => {
-        addItem(item);
+      addToCartButton.addEventListener("click", (event) => {
+        addItem(event, item);
       });
 
       subItemsContainer.appendChild(itemList);
