@@ -124,7 +124,7 @@
   // Función para generar un id aleatorio para cada nuevo item en el carrito.
   const randomId = () => Math.floor(Math.random() * 10000).toString();
 
-  // Funcion rellenar información dentro del carrito.
+  // Funcion showCart imprime información de los items dentro del carrito.
   function showCart() {
     let totalQtty = 0;
     let totalPrice = 0;
@@ -172,10 +172,10 @@
 
         modalBody.appendChild(modalItem);
 
-        const modalRemoveBtn = modalItem.querySelector(
+        const modalDeleteBtn = modalItem.querySelector(
           ".modal-item-deleteIcon"
         );
-        modalRemoveBtn.addEventListener("click", () => {
+        modalDeleteBtn.addEventListener("click", () => {
           deleteItemFromCart(item);
         });
       });
@@ -190,6 +190,8 @@
     cardItemsQtty.forEach((element) => {
       const productName = element.getAttribute("data-product");
       const product = cartItems.find((item) => item.name === productName);
+      console.log('product name: ', productName);
+      console.log('product: ', product);
 
       if (product) {
         element.textContent = `x${product.qtty}`;
@@ -269,8 +271,6 @@
     }
     showCart();
     updateCardItemQtty();
-    console.log(data);
-    console.log("carrito [] :", cartItems);
   }
 
   function render_list_of_items() {
