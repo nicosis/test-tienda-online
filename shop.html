@@ -114,18 +114,19 @@
   // Declaramos un array vacío para guardar los items agregados al carrito.
   let cartItems = [];
 
-  // Declaramos variables para manipulación DOM
+  // Declaramos variables globales para la manipulación del DOM.
   const itemsContainer = document.querySelector(".items-container");
   const cartQtty = document.querySelector(".cart-container-qtty");
   const cartTotal = document.querySelector(".cart-container-total");
-  const modalBody = document.querySelector(".modal-body");
-  const valorTotal = document.querySelector(".valor-total");
 
   // Función para generar un id aleatorio para cada nuevo item en el carrito.
   const randomId = () => Math.floor(Math.random() * 10000).toString();
 
   // Funcion showCart imprime información de los items dentro del carrito.
   function showCart() {
+    const modalBody = document.querySelector(".modal-body");
+    const valorTotal = document.querySelector(".valor-total");
+
     let totalQtty = 0;
     let totalPrice = 0;
 
@@ -190,8 +191,6 @@
     cardItemsQtty.forEach((element) => {
       const productName = element.getAttribute("data-product");
       const product = cartItems.find((item) => item.name === productName);
-      console.log('product name: ', productName);
-      console.log('product: ', product);
 
       if (product) {
         element.textContent = `x${product.qtty}`;
@@ -215,11 +214,10 @@
     }
     updateCardItemQtty();
     showCart();
-    console.log(data);
+    console.log('data: ',data);
   }
 
   function addItem(event, item) {
-    console.log("agregar ", item);
     event.preventDefault(); // Evitar que el scroll regrese al top luego del click.
 
     const existingItem = cartItems.find((e) => e.name === item.img);
@@ -246,7 +244,7 @@
     }
 
     showCart();
-    console.log(data);
+    console.log('data: ',data);
   }
 
   function removeItem(event, item) {
@@ -271,6 +269,7 @@
     }
     showCart();
     updateCardItemQtty();
+    console.log('data: ',data);
   }
 
   function render_list_of_items() {
