@@ -82,7 +82,7 @@
               ></button>
             </div>
             <div class="modal-body fs-4">
-              <p>El carrito está vacío.</p>
+              <p>Tu carrito está vacío.</p>
             </div>
             <div class="modal-footer fw-bold fs-3">
               <p>Total:</p>
@@ -126,7 +126,7 @@
     let totalQtty = 0;
 
     if (cartItems.length === 0) {
-      modalBody.innerHTML = "<p>El carrito está vacío.</p>";
+      modalBody.innerHTML = "<p>Tu carrito está vacío.</p>";
       valorTotal.innerText = "€" + totalPrice.toFixed(2);
       cartQtty.innerText = totalQtty;
       cartTotal.innerText = "€" + totalPrice.toFixed(2);
@@ -138,14 +138,14 @@
         modalItem.innerHTML = `
         <p class="modal-item-name text-capitalize">${item.name}</p>
         <span class="modal-item-price">€${item.price.toFixed(2)}</span>
-        <span class="modal-item-qtty">x${item.qtty}</span>
+        <span class="modal-item-qtty fw-bold">x${item.qtty}</span>
         <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="modal-item-icon-close"
+        class="modal-item-closeIcon"
         >
         <path
         stroke-linecap="round"
@@ -165,7 +165,7 @@
         modalBody.appendChild(modalItem);
 
         const modalRemoveBtn = modalItem.querySelector(
-          ".modal-item-icon-close"
+          ".modal-item-closeIcon"
         );
         modalRemoveBtn.addEventListener("click", () => {
           removeItem(item);
@@ -241,13 +241,13 @@
   function render_list_of_items() {
     const itemsContainer = document.querySelector(".items-container");
     const subItemsContainer = document.createElement("div");
-    subItemsContainer.classList.add("row", "row-cols-md-3", "g-4");
+    subItemsContainer.classList.add("row", "row-cols-md-3", "g-3");
 
     data.forEach((item) => {
       const itemList = document.createElement("div");
       itemList.classList.add("col");
       itemList.innerHTML = `
-        <div class="card h-100">
+        <div class="card h-100 shadow">
           <img src="./assets/img/${
             item.img
           }.jpg" class="card-img-top" alt="Image">

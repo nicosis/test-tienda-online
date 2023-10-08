@@ -38,8 +38,6 @@ body {
   cursor: pointer;
 }
 
-
-
 .items-container {
   width: 90%;
   margin: auto;
@@ -53,13 +51,7 @@ body {
 .modal-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 5px 20px;
-  font-size: 25px;
-}
-
-.modal-item-qtty {
-  flex: 1;
 }
 
 .modal-item-name {
@@ -67,11 +59,11 @@ body {
   margin: 0;
 }
 
-.modal-item-price {
-  flex: 4;
+.modal-item-price, .modal-item-qtty  {
+  flex: 3;
 }
 
-.modal-item-icon-close {
+.modal-item-closeIcon {
   width: 25px;
   cursor: pointer;
 }
