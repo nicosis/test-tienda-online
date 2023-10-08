@@ -114,14 +114,15 @@
   // Declaramos un array vacío para guardar los items agregados al carrito.
   let cartItems = [];
 
-  // Declaramos variables para luego manipular el HTML via DOM
-  let valorTotal = document.querySelector(".valor-total");
-  let cartQtty = document.querySelector(".cart-container-qtty");
-  let cartTotal = document.querySelector(".cart-container-total");
-  let modalBody = document.querySelector(".modal-body");
+  // Declaramos variables para manipulación DOM
+  const itemsContainer = document.querySelector(".items-container");
+  const cartQtty = document.querySelector(".cart-container-qtty");
+  const cartTotal = document.querySelector(".cart-container-total");
+  const modalBody = document.querySelector(".modal-body");
+  const valorTotal = document.querySelector(".valor-total");
 
   // Función para generar un id aleatorio para cada nuevo item en el carrito.
-  let randomId = () => Math.floor(Math.random() * 1000).toString();
+  const randomId = () => Math.floor(Math.random() * 1000).toString();
 
   // Funcion rellenar información dentro del carrito.
   function showCart() {
@@ -178,6 +179,7 @@
     }
   }
 
+  // Función para actualizar la cantidad de productos agregados al carrito en el boton de cada card.
   function updateAddToCartBtnQtty(productName) {
     const addToCartButtons = document.querySelectorAll(
       `.add-to-cart-btn[data-product="${productName}"]`
@@ -239,7 +241,6 @@
   }
 
   function render_list_of_items() {
-    const itemsContainer = document.querySelector(".items-container");
     const subItemsContainer = document.createElement("div");
     subItemsContainer.classList.add("row", "row-cols-md-3", "g-3");
 
