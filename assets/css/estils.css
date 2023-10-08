@@ -8,6 +8,16 @@ body {
   background-color: lightgrey;
 }
 
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff; /* Cambia esto al color de fondo deseado */
+  z-index: 1000; /* Asegúrate de que el z-index sea mayor que otros elementos si es necesario */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: agregar sombra al encabezado */
+}
+
 .cart-container {
   position: relative;
 }
@@ -17,7 +27,8 @@ body {
   cursor: pointer;
 }
 
-.cart-container-total, .cart-container-arrow {
+.cart-container-total,
+.cart-container-arrow {
   cursor: pointer;
 }
 
@@ -40,12 +51,12 @@ body {
 
 .items-container {
   width: 90%;
-  margin: auto;
+  margin: 82px auto 10px;
 }
 
 .items-container img {
   width: 75%;
-  margin: 5px auto;
+  margin: 5px auto 0px;
 }
 
 .modal-item {
@@ -59,7 +70,8 @@ body {
   margin: 0;
 }
 
-.modal-item-price, .modal-item-qtty  {
+.modal-item-price,
+.modal-item-qtty {
   flex: 3;
 }
 

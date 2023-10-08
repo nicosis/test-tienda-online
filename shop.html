@@ -19,7 +19,7 @@
     <div class="page-container">
       <!-- Page content -->
       <header
-        class="d-flex justify-content-between align-items-center my-2 mx-4"
+        class="fixed-header d-flex justify-content-between align-items-center pt-2 px-4"
       >
         <h1 class="fw-bold">Tienda online</h1>
         <div class="cart-container">
@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div class="items-container mb-2"></div>
+      <div class="items-container"></div>
     </div>
   </body>
 </html>
@@ -164,9 +164,7 @@
 
         modalBody.appendChild(modalItem);
 
-        const modalRemoveBtn = modalItem.querySelector(
-          ".modal-item-closeIcon"
-        );
+        const modalRemoveBtn = modalItem.querySelector(".modal-item-closeIcon");
         modalRemoveBtn.addEventListener("click", () => {
           removeItem(item);
         });
@@ -190,6 +188,8 @@
   }
 
   function addItem(item) {
+    event.preventDefault(); // Evitar que al hacer click regrese al top.
+
     const existingItem = cartItems.find((e) => e.name === item.img);
 
     if (existingItem) {
@@ -260,7 +260,7 @@
               <a href="#" class="btn btn-primary add-to-cart-btn w-100 d-flex justify-content-center align-items-center" data-product="${
                 item.img
               }">
-                <p class="m-0">Add to cart</p> &nbsp; <span class="add-to-cart-btn-qtty">(0)</span>
+                <p class="m-0">Agregar al carrito</p> &nbsp; <span class="add-to-cart-btn-qtty">(0)</span>
               </a>
             </div>
           </div>
