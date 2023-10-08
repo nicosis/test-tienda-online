@@ -13,9 +13,13 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background-color: #fff; /* Cambia esto al color de fondo deseado */
-  z-index: 1000; /* Asegúrate de que el z-index sea mayor que otros elementos si es necesario */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: agregar sombra al encabezado */
+  background-color: #fff;
+  z-index: 100;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px 5px;
 }
 
 .cart-container {
@@ -24,11 +28,6 @@ body {
 
 .cart-container-icon {
   width: 65px;
-  cursor: pointer;
-}
-
-.cart-container-total,
-.cart-container-arrow {
   cursor: pointer;
 }
 
@@ -49,9 +48,14 @@ body {
   cursor: pointer;
 }
 
+.cart-container-total,
+.cart-container-arrow {
+  cursor: pointer;
+}
+
 .items-container {
-  width: 90%;
-  margin: 82px auto 10px;
+  width: 95%;
+  margin: 90px auto 10px;
 }
 
 .items-container img {
