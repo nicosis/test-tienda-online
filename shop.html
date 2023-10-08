@@ -122,12 +122,12 @@
   const valorTotal = document.querySelector(".valor-total");
 
   // Función para generar un id aleatorio para cada nuevo item en el carrito.
-  const randomId = () => Math.floor(Math.random() * 1000).toString();
+  const randomId = () => Math.floor(Math.random() * 10000).toString();
 
   // Funcion rellenar información dentro del carrito.
   function showCart() {
-    let totalPrice = 0;
     let totalQtty = 0;
+    let totalPrice = 0;
 
     if (cartItems.length === 0) {
       modalBody.innerHTML = "<p>Tu carrito está vacío.</p>";
@@ -143,13 +143,16 @@
         <p class="modal-item-name text-capitalize">${item.name}</p>
         <span class="modal-item-price">€${item.price.toFixed(2)}</span>
         <span class="modal-item-qtty fw-bold">x${item.qtty}</span>
+        <span class="modal-item-subTotal fw-bold">€${(
+          item.price * item.qtty
+        ).toFixed(2)}</span>
         <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="modal-item-removeIcon"
+        class="modal-item-deleteIcon"
         >
         <path
         stroke-linecap="round"
@@ -159,8 +162,8 @@
         </svg>
       `;
 
-        totalPrice = totalPrice + item.qtty * item.price;
         totalQtty += item.qtty;
+        totalPrice = totalPrice + item.qtty * item.price;
 
         valorTotal.innerText = "€" + totalPrice.toFixed(2);
 
@@ -170,32 +173,51 @@
         modalBody.appendChild(modalItem);
 
         const modalRemoveBtn = modalItem.querySelector(
-          ".modal-item-removeIcon"
+          ".modal-item-deleteIcon"
         );
         modalRemoveBtn.addEventListener("click", () => {
-          removeItem(item);
+          deleteItemFromCart(item);
         });
       });
+      updateCardItemQtty();
     }
   }
 
-  // Función para actualizar la cantidad de productos agregados al carrito en el boton de cada card.
-  function updateAddToCartBtnQtty(productName) {
-    const addToCartButtons = document.querySelectorAll(
-      `.add-to-cart-btn[data-product="${productName}"]`
-    );
-    addToCartButtons.forEach((button) => {
-      const product = data.find((item) => item.img === productName);
+  // Función para actualizar la cantidad de productos de cada card.
+  function updateCardItemQtty(productName) {
+    const cardItemsQtty = document.querySelectorAll(".item-qtty");
+
+    cardItemsQtty.forEach((element) => {
+      const productName = element.getAttribute("data-product");
+      const product = cartItems.find((item) => item.name === productName);
+
       if (product) {
-        const quantitySpan = button.querySelector(".add-to-cart-btn-qtty");
-        if (quantitySpan) {
-          quantitySpan.textContent = `(${product.qtty})`;
-        }
+        element.textContent = `x${product.qtty}`;
+      } else {
+        element.textContent = "x0"; // Si no se encuentra, mostrar 0.
       }
     });
   }
 
+  // Función para remover un item del carrito.
+  function deleteItemFromCart(item) {
+    console.log("eliminar del carrito: ", item);
+
+    updatedCartItems = cartItems.filter((cartItem) => cartItem.id !== item.id);
+    cartItems = [...updatedCartItems];
+
+    const dataItem = data.find((dataItem) => dataItem.img === item.name);
+
+    if (dataItem) {
+      dataItem.qtty = 0;
+    }
+    updateCardItemQtty();
+    showCart();
+    console.log(data);
+  }
+
   function addItem(event, item) {
+    console.log("agregar ", item);
     event.preventDefault(); // Evitar que el scroll regrese al top luego del click.
 
     const existingItem = cartItems.find((e) => e.name === item.img);
@@ -221,23 +243,34 @@
       }
     }
 
-    updateAddToCartBtnQtty(item.img);
-
     showCart();
+    console.log(data);
   }
 
-  function removeItem(item) {
-    updatedCartItems = cartItems.filter((cartItem) => cartItem.id !== item.id);
-    cartItems = [...updatedCartItems];
+  function removeItem(event, item) {
+    event.preventDefault(); // Evitar que el scroll regrese al top luego del click.
 
-    const dataItem = data.find((dataItem) => dataItem.img === item.name);
+    const existingItem = cartItems.find((e) => e.name === item.img);
 
-    if (dataItem) {
-      dataItem.qtty = 0;
-      updateAddToCartBtnQtty(item.name);
+    if (existingItem) {
+      if (existingItem.qtty > 0) {
+        existingItem.qtty--;
+        const dataItem = data.find((dataItem) => dataItem.img === item.img);
+        if (dataItem && dataItem.qtty > 0) {
+          dataItem.qtty--;
+        }
+
+        if (existingItem.qtty === 0) {
+          cartItems = cartItems.filter(
+            (cartItem) => cartItem.id !== existingItem.id
+          );
+        }
+      }
     }
-
     showCart();
+    updateCardItemQtty();
+    console.log(data);
+    console.log("carrito [] :", cartItems);
   }
 
   function render_list_of_items() {
@@ -256,13 +289,21 @@
             <div class="d-flex justify-content-between align-items-center">
               <h4 class="card-title text-capitalize">${item.img}</h4>
               <h4 class="card-price fw-bold">€${item.price.toFixed(2)}</h4>
-            </div>
-            <div class="d-flex justify-content-center">
-              <a href="#" class="btn add-to-cart-btn w-100 d-flex justify-content-center align-items-center" data-product="${
-                item.img
-              }">
-                <p class="m-0">Agregar al carrito</p> &nbsp; <span class="add-to-cart-btn-qtty">(0)</span>
-              </a>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+
+                <a href="#" class="btn add-to-cart-btn">
+                  <p class="m-0">Agregar al carrito</p>
+                </a>
+                <span>></span>
+                <span class="item-qtty fw-bold fs-5 mx-1" data-product="${
+                  item.img
+                }">x0</span>
+                <span><</span>
+                <a href="#" class="btn remove-from-cart-btn">
+                  <p class="m-0">Quitar del carrito</p>
+                </a>
+
             </div>
           </div>
         </div>
@@ -271,6 +312,13 @@
       const addToCartButton = itemList.querySelector(".add-to-cart-btn");
       addToCartButton.addEventListener("click", (event) => {
         addItem(event, item);
+      });
+
+      const removefromCartButton = itemList.querySelector(
+        ".remove-from-cart-btn"
+      );
+      removefromCartButton.addEventListener("click", (event) => {
+        removeItem(event, item);
       });
 
       subItemsContainer.appendChild(itemList);

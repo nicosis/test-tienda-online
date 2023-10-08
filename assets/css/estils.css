@@ -39,6 +39,7 @@ body {
   font-size: 25px;
   font-weight: 500;
   background-color: #131921;
+  /* border: 1px solid #f08804; */
   color: #f08804;
   min-width: 38px;
   min-height: 30px;
@@ -65,11 +66,12 @@ body {
 }
 
 .modal-item-price,
-.modal-item-qtty {
-  flex: 3;
+.modal-item-qtty,
+.modal-item-subTotal {
+  flex: 2;
 }
 
-.modal-item-removeIcon {
+.modal-item-deleteIcon {
   width: 25px;
   cursor: pointer;
 }
@@ -91,4 +93,13 @@ body {
 
 .add-to-cart-btn:hover {
   background-color: #eec600;
+}
+
+.remove-from-cart-btn {
+  background-color: #ff3838;
+  color: #131921;
+}
+
+.remove-from-cart-btn:hover {
+  background-color: #ff1919;
 }
