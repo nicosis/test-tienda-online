@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: lightgrey;
+  background-color: #eaeded;
 }
 
 .fixed-header {
@@ -13,7 +13,8 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background-color: #fff;
+  background-color: #131921;
+  color: #fefefe;
   z-index: 100;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -34,11 +35,11 @@ body {
 .cart-container-qtty {
   position: absolute;
   left: 18px;
-  bottom: 45%;
+  bottom: 32px;
   font-size: 25px;
   font-weight: 500;
-  background-color: black;
-  color: white;
+  background-color: #131921;
+  color: #f08804;
   min-width: 38px;
   min-height: 30px;
   border-radius: 50%;
@@ -81,4 +82,13 @@ body {
 .items-container img {
   width: 75%;
   margin: 5px auto 0px;
+}
+
+.add-to-cart-btn {
+  background-color: #ffd814;
+  color: #131921;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #eec600;
 }
